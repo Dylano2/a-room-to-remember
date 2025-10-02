@@ -1,0 +1,287 @@
+# Blender 4.5.3 LTS MTL File: 'PARFUM_v01.blend'
+# www.blender.org
+
+newmtl BOITE
+Kd 0.838794 0.768152 0.658375
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.870000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+
+newmtl BOUCHON
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.100000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+
+newmtl CARTE
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Z:/Program Files (x86)/Blender/Creations/2025/CLIENTS/KHALIL/PARFUM/IMAGES/ETIQUETTE/CARTE.png
+map_d Z:/Program Files (x86)/Blender/Creations/2025/CLIENTS/KHALIL/PARFUM/IMAGES/ETIQUETTE/CARTE.png
+
+newmtl FATAL
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Z:/Program Files (x86)/Blender/Creations/2025/CLIENTS/KHALIL/PARFUM/IMAGES/ETIQUETTE/etiquette_fatal_v01.png
+
+newmtl Fabric
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+Pr 1.000000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Bump -bm 1.000000 Z:/Program Files (x86)/Blender/Models/Bed/BED/textures/Fabric_N.jpg
+
+newmtl Fabric_Plain.001
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+Pr 1.000000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Bump -s 2 2 2 -bm 1.000000 Z:/Program Files (x86)/Blender/Models/Bed/BED/textures/Fabric_N.jpg
+
+newmtl LAST
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Z:/Program Files (x86)/Blender/Creations/2025/CLIENTS/KHALIL/PARFUM/IMAGES/ETIQUETTE/etiquette_last_v01.png
+
+newmtl MAD
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Z:/Program Files (x86)/Blender/Creations/2025/CLIENTS/KHALIL/PARFUM/IMAGES/ETIQUETTE/etiquette_mad_v01.png
+
+newmtl Material.001
+Kd 0.552868 0.446771 0.347885
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pr 0.950000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+
+newmtl Material.002
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+Pr 1.000000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd Z:/Program Files (x86)/Blender/Models/Bed/BED/textures/Cube.005_Bake1_cyclesbake_COMBINED.png
+
+newmtl Material.003
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+Pr 1.000000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+
+newmtl Material.004
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+Pr 0.400000
+Pm 0.000000
+
+newmtl Material.005
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+Pr 1.000000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+
+newmtl Material.006
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+Pr 0.400000
+Pm 0.000000
+
+newmtl Material.007
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+Pr 0.400000
+Pm 0.000000
+
+newmtl Material.008
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+Pr 0.400000
+Pm 0.000000
+
+newmtl SHADOW_CATCHER
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 0.959091
+illum 9
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+
+newmtl TAPIS
+Kd 0.800000 0.800000 0.800000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Ks Z:/Program Files (x86)/Blender/Textures/CARPET/CARPET/Plush_Carpet_umonbbqdy_2K_Specular.jpg
+map_Pr Z:/Program Files (x86)/Blender/Textures/CARPET/CARPET/Plush_Carpet_umonbbqdy_2K_Roughness.jpg
+map_Bump -bm 1.000000 Z:/Program Files (x86)/Blender/Textures/CARPET/CARPET/Plush_Carpet_umonbbqdy_2K_Normal.jpg
+
+newmtl VELOURS
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Pm Z:/Program Files (x86)/Blender/Textures/FABRIC/Velour/velvet_2-4K/4K-velvet_2_metallic.png
+map_Pr Z:/Program Files (x86)/Blender/Textures/FABRIC/Velour/velvet_2-4K/4K-velvet_2_roughness.png
+map_Bump -bm 1.000000 Z:/Program Files (x86)/Blender/Textures/FABRIC/Velour/velvet_2-4K/4K-velvet_2_normal.png
+
+newmtl Wood
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Pr Z:/Program Files (x86)/Blender/Models/Bed/BED/textures/Wood_R.jpg
+map_Bump -bm 1.000000 Z:/Program Files (x86)/Blender/Models/Bed/BED/textures/Wood_N.jpg
