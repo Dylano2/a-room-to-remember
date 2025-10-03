@@ -1,0 +1,50 @@
+{
+  "hero": {
+    "title": "Room to remember",
+    "highlight": "A multi-sensory experience curated for Hotel Beige guests",
+    "by": " Curated by Lovember"
+  },
+  "what": {
+    "title": "The scent of arrival, the memory of a stay",
+    "image": {
+      "src": "/img/boite_ouverte_1.png",
+      "alt": "Boite ouverte de parfums"
+    },
+    "paragraphs": [
+      "Imagine a guest’s first moment in the room : soft light, a view of the Parisian architecture… and a delicate, hand-selected perfume waiting just for them.",
+      "I would like to propose a curated Welcome Scent Box : three perfume samples chosen with care, presented in a design that echoes the unique identity of Hotel Beige"
+    ]
+  },
+  "why": {
+    "title": "Why it makes sense",
+    "subtitle": "As regular guests, you have already made Hotel Beige your home. Over the years, you have created memories and built a relationship with the place and the staff. This is what moved me when I first met you. ",
+    "image": {
+      "src": "/img/boite_ouverte_2.png",
+      "alt": "Boite ouverte de parfums"
+    },
+    "reasons": [
+      {
+        "icon": "sparkles",
+        "title": "Ingrédients d'exception",
+        "description": "Des essences rares provenant des quatre coins du monde, sélectionnées par nos maîtres parfumeurs."
+      },
+      {
+        "icon": "award",
+        "title": "Savoir-faire artisanal",
+        "description": "Chaque flacon est assemblé à la main selon des techniques transmises de génération en génération."
+      },
+      {
+        "icon": "heart",
+        "title": "Expérience unique",
+        "description": "Plus qu'un parfum, c'est une invitation au voyage dans l'univers du luxe absolu."
+      }
+    ]
+  },
+  "contact": {
+    "title": "I would love to explore this collaboration with you and refine it together.",
+    "lovember": "Lovember",
+    "fullName": "Khalil Boulkenafet ",
+    "mail": "khalilboulkenafet@gmail.com",
+    "footer": "© 2025 Lovember"
+  }
+}

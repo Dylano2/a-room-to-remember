@@ -1,10 +1,10 @@
+/*
 import "./App.css";
 import {Canvas, useFrame, useLoader} from "@react-three/fiber";
 import {useRef} from "react";
 import {GizmoHelper, GizmoViewport, OrbitControls, useGLTF, useHelper,} from "@react-three/drei";
 import {Leva, useControls} from "leva";
 import {CameraHelper, type DirectionalLight, DirectionalLightHelper, Mesh, SpotLight, SpotLightHelper} from "three"
-import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 
 
 // To make object cast shadows we need to add shadows prop to the canvas.
@@ -118,7 +118,7 @@ function App() {
                 <axesHelper args={[10]}/>
                 <OrbitControls/>
                 <AnimatedBox/>
-                {/* <LightWithHelper /> */}
+                {/!* <LightWithHelper /> *!/}
                 <DLightWithHelper/>
                 <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                     <planeGeometry args={[20, 20]}/>
@@ -129,4 +129,4 @@ function App() {
     );
 }
 
-export default App;
+export default App;*/

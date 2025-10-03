@@ -1,33 +1,30 @@
 import {useEffect, useRef, useState} from 'react';
+import {MAX_STEPS} from "../data/constantes.ts";
 
-function useCumulativeScrollProgress(maxValue = 3) {
+function useCumulativeScrollProgress(maxValue = MAX_STEPS + 0.5) {
     const [progress, setProgress] = useState(0);
     const cumulativeRef = useRef(0);
-    const touchStartY = useRef(null);
+    const touchStartY = useRef<number | null>(null);
 
     useEffect(() => {
-        const onWheel = (e) => {
-            console.log(progress)
+        const onWheel = (e: WheelEvent) => {
 
             if (e.deltaY > 0) {
-                cumulativeRef.current += e.deltaY * 0.0005 // Ajuste scale pour fluidité
+                //scroll vers le bas
+                cumulativeRef.current += e.deltaY * 0.0005
             } else if (e.deltaY < 0) {
-                cumulativeRef.current += e.deltaY * 0.0005; // scroll vers le haut diminuera la valeur
+                //scroll vers le haut
+                cumulativeRef.current += e.deltaY * 0.0005;
             }
-
-            // Clamp la valeur entre 0 et maxValue
             if (cumulativeRef.current > maxValue) cumulativeRef.current = maxValue;
             if (cumulativeRef.current < 0) cumulativeRef.current = 0;
-            console.log('cumulativeRef.current', cumulativeRef.current)
             setProgress(cumulativeRef.current);
         };
-        const onTouchStart = (e) => {
+        const onTouchStart = (e: TouchEvent) => {
             touchStartY.current = e.touches[0].clientY;
         };
 
-        const onTouchMove = (e) => {
-            console.log(progress)
-
+        const onTouchMove = (e: TouchEvent) => {
             if (touchStartY.current === null) return;
             const currentY = e.touches[0].clientY;
             const deltaY = touchStartY.current - currentY; // positif = défilement vers le bas

@@ -1,161 +1,232 @@
 import {Leva} from "leva";
-import {Canvas, useFrame, useLoader, useThree} from "@react-three/fiber";
-import {OBJLoader} from 'three/addons/loaders/OBJLoader.js'
-import {GizmoHelper, GizmoViewport} from "@react-three/drei";
+import {Canvas, useFrame, useThree} from "@react-three/fiber";
+import {Html, OrbitControls} from "@react-three/drei";
 import * as THREE from "three";
-import {useEffect, useRef, useState} from "react";
-import useCumulativeScrollProgress from "./hook/useCumulativeScrollProgress.tsx";
+import {useEffect, useState} from "react";
+import {useScene} from "./hook/useScene.tsx";
+import {easeInOutQuad, lerp, lerpVector3} from "./utils/utils.tsx";
+import {ElegantLights, GoldenBackLight, WarmLampLight} from "./components/lights/lights.tsx";
+import type {SceneState} from "./types/type.ts";
 
+function VolumetricSpot() {
+    return (
+        <>
+            <spotLight
+                position={[0, 5, 0]}
+                angle={0.3}
+                penumbra={0.2}
+                intensity={10}
+                color="white"
+                castShadow
+            />
 
-function easeInOutQuad(t: number) {
-    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        </>
+    );
 }
 
-const ETIQUETTE_PARFUM_3 = 'plane.008'
-const ETIQUETTE_PARFUM_2 = 'plane.011'
-const ETIQUETTE_PARFUM_1 = 'plane.014'
-const BOUTEILLES_PARFUM = "plane.001"
-const BOUCHONS_PARFUM = "circle.002"
-const EXTERIEUR_BOITE = 'plane.004'
-const INTERIEUR_BOITE = 'plane.005'
-const CARTE = ['carte']
 
-const PARFUMS_OBJ = [ETIQUETTE_PARFUM_3, ETIQUETTE_PARFUM_2, ETIQUETTE_PARFUM_1, BOUTEILLES_PARFUM, BOUCHONS_PARFUM]
-const BOITE_OBJ = [EXTERIEUR_BOITE, INTERIEUR_BOITE]
-type CameraState = {
-    position: {
-        x: number,
-        y: number,
-        z: number,
-    }
-    lookAt: {
-        x: number,
-        y: number,
-        z: number,
-    }
+type SceneProps = {
+    steps: SceneState[],
+    setStep: (stepValue: number) => void,
+    progress: number
 }
 
-type ObjetState = {
-    position: {
-        x: number,
-        y: number,
-        z: number,
-    }
-}
-
-type SceneState = {
-    cameraState: CameraState;
-    carteState: ObjetState,
-    boiteState: ObjetState,
-    parfumsState: ObjetState
-
-}
-
-const step1: CameraState = {lookAt: {x: 0.6, y: 0.4, z: 0}, position: {x: 3, y: 1.7, z: -0.6}}
-
-const cameraState0: CameraState = {lookAt: {x: 0.8, y: 0.4, z: 0}, position: {x: 5.1, y: 0.8, z: -0.8}}
-
-function Scene() {
-    const [step, setStep] = useState(0)
+function Scene({steps, setStep, progress}: SceneProps) {
     const {camera} = useThree();
+    const {obj, carteRef, boiteRef, parfumsRef} = useScene()
 
-    const obj = useLoader(OBJLoader, '/PARFUM SCENE OBJ/PARFUM_SCENE_v01.obj')
-    const sceneRef = useRef<THREE.Mesh[]>([]);
-    const carteRef = useRef<THREE.Mesh>(null!);
-    const progress = useCumulativeScrollProgress()
-
-    // Position d'origine caméra en début d'animation
-    const originPosition = useRef(new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z));
-
-    // Vecteur permettant interpolation de position caméra
-    const targetPosition = new THREE.Vector3(step1.position.x, step1.position.y, step1.position.z);
-    const targetLookAt = new THREE.Vector3(step1.lookAt.x, step1.lookAt.y, step1.lookAt.z);
-
-
-    // Interpolation (lerp) entre deux Vector3
-    function lerpVector3(start: THREE.Vector3, end: THREE.Vector3, alpha: number) {
-        return start.clone().lerp(end, alpha);
-    }
 
     useEffect(() => {
-        const childToNotDisplay = ['plane.018', 'plane.020']
-
-        obj.traverse(child => {
-            if (child instanceof THREE.Mesh) {
-                if (childToNotDisplay.includes(child.name.toLowerCase())) {
-                    child.visible = false;
-                } else if (PARFUMS_OBJ.includes(child.name.toLowerCase())) {
-                    if (child.isMesh && child.material && child.material.color) {
-                        child.material.color.set('red');
-                    }
-                } else if (BOITE_OBJ.includes(child.name.toLowerCase())) {
-                    if (child.isMesh && child.material && child.material.color) {
-                        child.material.color.set('green');
-                    }
-                } else if (CARTE.includes(child.name.toLowerCase())) {
-                    if (child.isMesh && child.material && child.material.color) {
-                        child.material.color.set('blue');
-                        carteRef.current = child;
-                    }
-                } else {
-                    sceneRef.current.push(child)
-                }
-            }
-        });
-    }, [obj]);
-
-    useEffect(() => {
-        console.dir(cameraState0, {depth: Infinity})
-
-    }, []);
-
+        const currentStep = Math.min(Math.floor(progress), steps.length - 1);
+        setStep(currentStep);
+    }, [progress, setStep, steps.length]);
     useFrame(() => {
-        camera.position.set(
-            cameraState0.position.x, cameraState0.position.y, cameraState0.position.z);
-        camera.lookAt(cameraState0.lookAt.x, cameraState0.lookAt.y, cameraState0.lookAt.z);
-        camera.updateProjectionMatrix();
-        if (step === 1) {
-            const eased = easeInOutQuad(progress);
 
-            carteRef.current.position.y = easeInOutQuad(progress)
-            // Interpoler la position caméra selon easing et progress
+        const maxStep = steps.length - 1;
+        const clampedProgress = Math.min(progress, maxStep); // Limite à la dernière étape
+        const currentStepIndex = Math.floor(clampedProgress);
+        const nextStepIndex = Math.min(currentStepIndex + 1, maxStep);
+        const t = clampedProgress - currentStepIndex;
 
-            const newCamPos = lerpVector3(originPosition.current, targetPosition, eased);
-            camera.position.copy(newCamPos);
+        const currentStep = steps[currentStepIndex];
+        const nextStep = steps[nextStepIndex];
 
-            // Calcule lookAt interpolé
-            const newLookAt = lerpVector3(new THREE.Vector3().copy(camera.position), targetLookAt, eased);
-            camera.lookAt(newLookAt);
+        const easedT = easeInOutQuad(t);
+        const currentCamPos = new THREE.Vector3(
+            currentStep.cameraState.position.x,
+            currentStep.cameraState.position.y,
+            currentStep.cameraState.position.z
+        );
+        const nextCamPos = new THREE.Vector3(
+            nextStep.cameraState.position.x,
+            nextStep.cameraState.position.y,
+            nextStep.cameraState.position.z
+        );
+        const interpolatedCamPos = lerpVector3(currentCamPos, nextCamPos, easedT);
+        camera.position.copy(interpolatedCamPos);
 
-            // Met à jour matrice de projection
-            camera.updateProjectionMatrix();
+        const currentLookAt = new THREE.Vector3(
+            currentStep.cameraState.lookAt.x,
+            currentStep.cameraState.lookAt.y,
+            currentStep.cameraState.lookAt.z
+        );
+        const nextLookAt = new THREE.Vector3(
+            nextStep.cameraState.lookAt.x,
+            nextStep.cameraState.lookAt.y,
+            nextStep.cameraState.lookAt.z
+        );
+        const interpolatedLookAt = lerpVector3(currentLookAt, nextLookAt, easedT);
+        camera.lookAt(interpolatedLookAt);
 
-            // Condition pour passer à l’étape suivante quand proche de la cible
-            // Par exemple quand la distance entre caméra et cible est très petite
-            /*      if (newCamPos.distanceTo(targetPosition) < 0.01) {
-                      setStep(2);
-                  }*/
+        // Interpolation boîte
+        if (boiteRef.current.length > 0) {
+
+            const currentBoitePos = currentStep.boiteState?.position || {x: 0, y: 0, z: 0};
+            const nextBoitePos = nextStep.boiteState?.position || {x: 0, y: 0, z: 0};
+            const currentBoiteRot = currentStep.boiteState?.rotation || {x: 0, y: 0, z: 0};
+            const nextBoiteRot = nextStep.boiteState?.rotation || {x: 0, y: 0, z: 0};
+
+            boiteRef.current.forEach((mesh: THREE.Mesh) => {
+                mesh.position.set(
+                    lerp(currentBoitePos.x, nextBoitePos.x, easedT),
+                    lerp(currentBoitePos.y, nextBoitePos.y, easedT),
+                    lerp(currentBoitePos.z, nextBoitePos.z, easedT)
+                );
+                mesh.rotation.set(
+                    lerp(currentBoiteRot.x, nextBoiteRot.x, easedT),
+                    lerp(currentBoiteRot.y, nextBoiteRot.y, easedT),
+                    lerp(currentBoiteRot.z, nextBoiteRot.z, easedT)
+                );
+            });
+        }
+
+        if (parfumsRef.current.length > 0) {
+            const currentBoitePos = currentStep.boiteState?.position || {x: 0, y: 0, z: 0};
+            const nextBoitePos = nextStep.boiteState?.position || {x: 0, y: 0, z: 0};
+            const currentBoiteRot = currentStep.boiteState?.rotation || {x: 0, y: 0, z: 0};
+            const nextBoiteRot = nextStep.boiteState?.rotation || {x: 0, y: 0, z: 0};
+
+            parfumsRef.current.forEach((mesh) => {
+                mesh.position.set(
+                    lerp(currentBoitePos.x, nextBoitePos.x, easedT),
+                    lerp(currentBoitePos.y, nextBoitePos.y, easedT),
+                    lerp(currentBoitePos.z, nextBoitePos.z, easedT)
+                );
+                mesh.rotation.set(
+                    lerp(currentBoiteRot.x, nextBoiteRot.x, easedT),
+                    lerp(currentBoiteRot.y, nextBoiteRot.y, easedT),
+                    lerp(currentBoiteRot.z, nextBoiteRot.z, easedT)
+                );
+            });
+        }
+
+        if (carteRef.current) {
+            const currentCartePos = currentStep.carteState?.position || {x: 0, y: 0, z: 0};
+            const nextCartePos = nextStep.carteState?.position || {x: 0, y: 0, z: 0};
+
+
+            carteRef.current.position.set(
+                lerp(currentCartePos.x, nextCartePos.x, easedT),
+                lerp(currentCartePos.y, nextCartePos.y, easedT),
+                lerp(currentCartePos.z, nextCartePos.z, easedT)
+            );
+
+            // ✅ Interpolation du scale
+            const currentScale = currentStep.carteState?.scale || {x: 1, y: 1, z: 1};
+            const nextScale = nextStep.carteState?.scale || {x: 1, y: 1, z: 1};
+
+            carteRef.current.scale.set(
+                lerp(currentScale.x, nextScale.x, easedT),
+                lerp(currentScale.y, nextScale.y, easedT),
+                lerp(currentScale.z, nextScale.z, easedT)
+            );
 
         }
+
+        // Micro-mouvement global (optionnel)
+        camera.position.x += Math.sin(Date.now() / 4000) * 0.002;
+        camera.position.y += Math.cos(Date.now() / 5000) * 0.001;
+
+        camera.updateProjectionMatrix();
     });
 
 
-    return <primitive object={obj}/>
+    return <>
+        <primitive object={obj}/>
+    </>
 }
 
 
-export function SceneTestWithMyBox() {
+export const CameraPositionViewer = () => {
+    const {camera} = useThree();
+    const [position, setPosition] = useState({x: 0, y: 0, z: 0});
 
-    return <div className={"h-dvh bg-amber-200 touch-none"}>
+    // Mets à jour la position à chaque frame
+    useFrame(() => {
+        const pos = camera.position;
+        // Seulement si la position a changé (optimisation)
+        if (pos.x !== position.x || pos.y !== position.y || pos.z !== position.z) {
+            setPosition({x: pos.x, y: pos.y, z: pos.z});
+        }
+
+    });
+
+    return (
+        <Html position={[0, 1, 0]} className="bg-blue-400 text-white text-xs p-1 text-nowrap">
+            camera :<br/>
+            X: {position.x.toFixed(2)}<br/>
+            Y: {position.y.toFixed(2)}<br/>
+            Z: {position.z.toFixed(2)}
+        </Html>
+    );
+};
+
+export const CartePositionViewer = () => {
+    const {carteRef} = useScene();
+    const [position, setPosition] = useState({x: 0, y: 0, z: 0});
+
+    // Mets à jour la position à chaque frame
+    useFrame(() => {
+        if (carteRef.current) {
+            const pos = carteRef.current.position;
+            // Seulement si la position a changé (optimisation)
+            if (pos.x !== position.x || pos.y !== position.y || pos.z !== position.z) {
+                setPosition({x: pos.x, y: pos.y, z: pos.z});
+            }
+        }
+    });
+
+    return (
+        <Html position={[0, 1, 0]} className="bg-red-500 text-white text-xs p-1 text-nowrap">
+            CARTE :<br/>
+            X: {position.x.toFixed(2)}<br/>
+            Y: {position.y.toFixed(2)}<br/>
+            Z: {position.z.toFixed(2)}
+        </Html>
+    );
+};
+
+export function SceneTestWithMyBox({steps, setStep, progress}: SceneProps) {
+    return <div className={"h-dvh touch-none"}>
+
         <Leva/>
         <Canvas>
-            <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                <GizmoViewport/>
-            </GizmoHelper>
-            <ambientLight intensity={0.5}/>
-            <directionalLight position={[10, 10, 5]} intensity={1}/>
 
-            <Scene/>
+            {/*
+            <CameraPositionViewer/>
+*/}
+            {/*     <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                <GizmoViewport/>
+            </GizmoHelper>*/}
+            <OrbitControls/>
+            <ElegantLights/>
+            <GoldenBackLight/>
+            <VolumetricSpot/>
+            <WarmLampLight/>
+
+
+            <Scene steps={steps} setStep={setStep} progress={progress}/>
+
         </Canvas>
     </div>
 

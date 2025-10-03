@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@theme {
+    --color-pineCone-50: oklch(0.9134 0.0057 31.2887);
+    --color-pineCone-100: oklch(0.8262 0.0094 34.4171);
+    --color-pineCone-200: oklch(0.7406 0.0151 39.4453);
+    --color-pineCone-300: oklch(0.6552 0.0196 39.3855);
+    --color-pineCone-400: oklch(0.5671 0.0245 39.3273);
+    --color-pineCone-500: oklch(0.4819 0.0287 40.2223);
+    --color-pineCone-600: oklch(0.4237 0.0239 41.6266);
+    --color-pineCone-700: oklch(0.3672 0.0189 43.9180);
+    --color-pineCone-800: oklch(0.3100 0.0143 39.3175);
+    --color-pineCone-900: oklch(0.2538 0.0100 39.3423);
+    --color-pineCone-950: oklch(0.1944 0.0053 39.4000);
+}
