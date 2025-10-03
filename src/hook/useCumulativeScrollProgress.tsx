@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 
-function useCumulativeScrollProgress(maxValue = 1) {
+function useCumulativeScrollProgress(maxValue = 3) {
     const [progress, setProgress] = useState(0);
     const cumulativeRef = useRef(0);
     const touchStartY = useRef(null);
@@ -10,9 +10,9 @@ function useCumulativeScrollProgress(maxValue = 1) {
             console.log(progress)
 
             if (e.deltaY > 0) {
-                cumulativeRef.current += Math.round(e.deltaY * 0.001); // Ajuste scale pour fluidité
+                cumulativeRef.current += e.deltaY * 0.0005 // Ajuste scale pour fluidité
             } else if (e.deltaY < 0) {
-                cumulativeRef.current += e.deltaY * 0.001; // scroll vers le haut diminuera la valeur
+                cumulativeRef.current += e.deltaY * 0.0005; // scroll vers le haut diminuera la valeur
             }
 
             // Clamp la valeur entre 0 et maxValue
@@ -40,7 +40,11 @@ function useCumulativeScrollProgress(maxValue = 1) {
         window.addEventListener('wheel', onWheel, {passive: true});
         window.addEventListener('touchstart', onTouchStart, {passive: true});
         window.addEventListener('touchmove', onTouchMove, {passive: false});
-        return () => window.removeEventListener('wheel', onWheel);
+        return () => {
+            window.removeEventListener('wheel', onWheel);
+            window.removeEventListener('touchstart', onTouchStart);
+            window.removeEventListener('touchmove', onTouchMove);
+        };
     }, [maxValue]);
 
     return progress;
